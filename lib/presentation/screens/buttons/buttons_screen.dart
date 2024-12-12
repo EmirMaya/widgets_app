@@ -65,12 +65,38 @@ class _ButtonsView extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back_ios_new_rounded)),
             IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.arrow_back_ios_new_rounded,),
-                  style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(colors.primary),
-                  iconColor: const WidgetStatePropertyAll(Colors.white)
-                )),
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                ),
+                style: ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(colors.primary),
+                    iconColor: const WidgetStatePropertyAll(Colors.white))),
+            const CustomButton()
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  const CustomButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Material(
+        color: colors.primary,
+        child: InkWell(
+          onTap: () {},
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Text(
+                'Hola mundo',
+                style: TextStyle(color: Colors.white),
+              )),
         ),
       ),
     );
