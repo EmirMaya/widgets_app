@@ -57,6 +57,22 @@ class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
     // Simulate network delay
   }
 
+  Future<void> onRefresh() async {
+    isLoading = true;
+    setState(() {
+      
+    });
+    await Future.delayed(const Duration(seconds: 3));
+    
+    if (!isMounted) return;
+    isLoading = false;
+    final lastId = imagesIds.last;
+    imagesIds.clear();
+    imagesIds.add(lastId + 1);
+
+    setState(() {});
+  }
+
   void addFiveImages() {
     final lastId = imagesIds.last;
     // for (int i = 1; i <= 5; i++) {
@@ -77,19 +93,24 @@ class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
         context: context,
         removeTop: true,
         removeBottom: true,
-        child: ListView.builder(
-            controller: scrollController,
-            itemCount: imagesIds.length,
-            itemBuilder: (context, index) {
-              return FadeInImage(
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 300,
-                  placeholder:
-                      const AssetImage('assets/images/jar-loading.gif'),
-                  image: NetworkImage(
-                      'https://picsum.photos/id/${imagesIds[index]}/500/300'));
-            }),
+        child: RefreshIndicator(
+          onRefresh: onRefresh,
+          strokeWidth: 2,
+          edgeOffset: 10,
+          child: ListView.builder(
+              controller: scrollController,
+              itemCount: imagesIds.length,
+              itemBuilder: (context, index) {
+                return FadeInImage(
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: 300,
+                    placeholder:
+                        const AssetImage('assets/images/jar-loading.gif'),
+                    image: NetworkImage(
+                        'https://picsum.photos/id/${imagesIds[index]}/500/300'));
+              }),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.pop(),
