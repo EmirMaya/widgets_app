@@ -54,7 +54,7 @@ class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
 
     setState(() {});
 
-    // Simulate network delay
+    moveScrollToBottom(); // scroll to bottom after new images are loaded
   }
 
   Future<void> onRefresh() async {
@@ -71,6 +71,15 @@ class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
     imagesIds.add(lastId + 1);
 
     setState(() {});
+  }
+
+  void moveScrollToBottom() {
+    if(scrollController.position.pixels + 150 <= scrollController.position.maxScrollExtent) return; // si esta cerca del final
+
+    scrollController.animateTo(
+     scrollController.position.pixels + 120, // positcion actual + 120
+      duration: const Duration(milliseconds: 300), 
+      curve: Curves.fastOutSlowIn);
   }
 
   void addFiveImages() {
